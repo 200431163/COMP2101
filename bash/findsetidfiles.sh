@@ -25,9 +25,12 @@ find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 3
 echo ""
 echo "Setgid files:"
 echo "============="
-find / -type f -executable -perm -2000 -ls 2>/dev/null | sort -k 6
-echo ""
+find / -type f -executable -perm -2000 -ls 2>/dev/null | #Dev-nul garbages the errors
+sort -k 6 #6 shorts grp basis
+echo "" #Inserting blank line
 echo "The 10 largest regular files in the system:"
-echo "============="
-find / -type f -exec ls -alh 2>/dev/null --block-size=M {} \; | sort -hr -k5 | head | awk '{print $5, $3, $9}'
+echo "========================================"
+find / -type f -exec ls -alh 2>/dev/null --block-size=M {} \; | #All (-a) longlisted information with ls (-l), "--block-size=M" convert bytes into Mbs, "{} \;" applies the command on all finds, "exec" puts ls in run for files
+sort -hr -k5 | head -n 10| # Reverse sorting on col:5 with first 10 line output
+awk '{print $9, $3, $5}' #3 column prints as discribed in numbers
 echo ""
